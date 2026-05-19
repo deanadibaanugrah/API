@@ -3,11 +3,13 @@ import axios from 'axios';
 import UserTable from './UserTable';
 import LoadingSpinner from './LoadingSpinner';
 
-export default function UserList() {
+export default function UserList({ localUsers = [] }) {
   const [users, setUsers] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [searchTerm, setSearchTerm] = useState('');
+
+  const allUsers = [...localUsers, ...users];
 
   useEffect(() => {
     fetchUsers();
@@ -28,7 +30,7 @@ export default function UserList() {
     }
   };
 
-  const filteredUsers = users.filter(user =>
+  const filteredUsers = allUsers.filter(user =>
     user.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
     user.email.toLowerCase().includes(searchTerm.toLowerCase())
   );
@@ -56,7 +58,7 @@ export default function UserList() {
         style={styles.searchInput}
       />
 
-      <p>Menampilkan {filteredUsers.length} dari {users.length} pengguna</p>
+      <p>Menampilkan {filteredUsers.length} dari {allUsers.length} pengguna</p>
 
       <UserTable users={filteredUsers} />
 

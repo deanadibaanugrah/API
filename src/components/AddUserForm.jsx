@@ -23,7 +23,7 @@ export default function AddUserForm({ onSuccess }) {
     setMessage(null);
 
     try {
-      await axios.post(
+      const response = await axios.post(
         'https://jsonplaceholder.typicode.com/users',
         {
           name: formData.name,
@@ -35,7 +35,7 @@ export default function AddUserForm({ onSuccess }) {
       setMessage({ type: 'success', text: 'Data berhasil ditambahkan!' });
       setFormData({ name: '', email: '', phone: '' });
 
-      if (onSuccess) onSuccess();
+      if (onSuccess) onSuccess(response.data);
     } catch {
       setMessage({ type: 'error', text: 'Gagal menambahkan data!' });
     } finally {

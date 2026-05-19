@@ -1,14 +1,14 @@
-import { useState, useCallback } from 'react';
+import { useState } from 'react';
 import UserList from './components/UserList';
 import AddUserForm from './components/AddUserForm';
 import './App.css';
 
 function App() {
-  const [refreshKey, setRefreshKey] = useState(0);
+  const [localUsers, setLocalUsers] = useState([]);
 
-  const handleAddSuccess = useCallback(() => {
-    setRefreshKey(prev => prev + 1);
-  }, []);
+  const handleAddSuccess = (newUser) => {
+    setLocalUsers(prev => [newUser, ...prev]);
+  };
 
   return (
     <div className="App">
@@ -18,7 +18,7 @@ function App() {
       </header>
       <main>
         <AddUserForm onSuccess={handleAddSuccess} />
-        <UserList key={refreshKey} />
+        <UserList localUsers={localUsers} />
       </main>
     </div>
   );
